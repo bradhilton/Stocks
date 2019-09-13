@@ -13,20 +13,19 @@ class AppData : ObservableObject {
     @Published var notificationsCount: Int
     @Published var stocks: [Stock]
     
-    init(stocksCount: Int) {
+    init() {
         notificationsCount = 2
-        stocks = loadStocks(count: stocksCount)
+        stocks = loadStocks(count: 100)
         
         startNotificationsCountUpdates()
         startStockUpdates()
-        
     }
     
     var updateNotificationsCountTimer: Timer?
     
     func startNotificationsCountUpdates() {
         self.updateNotificationsCountTimer = .scheduledTimer(
-            withTimeInterval: 5,
+            withTimeInterval: 2,
             repeats: true
         ) { _ in
             let randomChange = Int.random(in: -1...1)
@@ -41,7 +40,7 @@ class AppData : ObservableObject {
         let exchangeSymbolPairs = stocks.map { ($0.exchange, $0.symbol) }
         
         self.updateStocksTimer = .scheduledTimer(
-            withTimeInterval: 0.1,
+            withTimeInterval: 0.001,
             repeats: true
         ) { _ in
             self.updateStocks(
@@ -69,7 +68,8 @@ class AppData : ObservableObject {
 func randomStockUpdates(
     for exchangeSymbolPairs: [(exchange: Stock.Exchange, symbol: String)]
 ) -> [Stock.Update] {
-    let numberOfUpdates = Int.random(in: 0..<4)
+    let maxNumberOfUpdates = (exchangeSymbolPairs.count / 500) + 1
+    let numberOfUpdates = max(Int.random(in: -10...maxNumberOfUpdates), 0)
     return (0..<numberOfUpdates).map { _ in
         let (exchange, symbol) = exchangeSymbolPairs.randomElement()!
         let change = Double.random(in: 0.01..<0.03)
