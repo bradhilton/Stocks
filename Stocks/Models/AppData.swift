@@ -34,15 +34,16 @@ class AppData : ObservableObject {
         }
     }
     
+    var updatePendingStocksTimer: Timer?
     var updateStocksTimer: Timer?
     
     func startStockUpdates() {
         let exchangeSymbolPairs = stocks.map { ($0.exchange, $0.symbol) }
         
         self.updateStocksTimer = .scheduledTimer(
-            withTimeInterval: 0.001,
+            withTimeInterval: 0.002,
             repeats: true
-        ) { _ in
+        ) { [unowned self] _ in
             self.updateStocks(
                 with: randomStockUpdates(for: exchangeSymbolPairs)
             )
@@ -69,7 +70,7 @@ func randomStockUpdates(
     for exchangeSymbolPairs: [(exchange: Stock.Exchange, symbol: String)]
 ) -> [Stock.Update] {
     let maxNumberOfUpdates = (exchangeSymbolPairs.count / 500) + 1
-    let numberOfUpdates = max(Int.random(in: -10...maxNumberOfUpdates), 0)
+    let numberOfUpdates = max(Int.random(in: -5...maxNumberOfUpdates), 0)
     return (0..<numberOfUpdates).map { _ in
         let (exchange, symbol) = exchangeSymbolPairs.randomElement()!
         let change = Double.random(in: 0.01..<0.03)

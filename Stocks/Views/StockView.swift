@@ -48,7 +48,7 @@ struct StockView_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(Stock.Display.allCases, id: \.self) { display in
             StockView(
-                stock: loadStocks(count: 1)[0],
+                stock: firstStock(),
                 display: .constant(display)
             )
             .previewLayout(.fixed(width: 320, height: 63))

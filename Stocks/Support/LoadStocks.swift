@@ -23,3 +23,7 @@ func loadStocks(count: Int) -> [Stock] {
         fatalError(error.localizedDescription)
     }
 }
+
+func firstStock() -> Stock {
+    loadStocks(count: 1)[0]
+}

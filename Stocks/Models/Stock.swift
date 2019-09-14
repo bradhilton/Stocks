@@ -19,25 +19,31 @@ struct Stock : Codable {
         (lastSale - open) / open
     }
     
-    enum Exchange : String, CaseIterable, Codable {
+    enum Exchange : String, CaseIterable, Codable, Comparable {
         case nasdaq, nyse, amex
+        
+        static func < (lhs: Stock.Exchange, rhs: Stock.Exchange) -> Bool {
+            lhs.rawValue < rhs.rawValue
+        }
     }
     
     enum Sort : Hashable, CaseIterable {
         case symbol, name, movers
         
         func comparator(_ ascending: Bool) -> (Stock, Stock) -> Bool {
-            return ascending ? comparator : { !self.comparator($0, $1) }
+            return ascending
+                ? comparator
+                : descending(comparator)
         }
         
-        private var comparator: (Stock, Stock) -> Bool {
+        var comparator: (Stock, Stock) -> Bool {
             switch self {
             case .symbol:
-                return { $0.symbol < $1.symbol }
+                return compare(\.symbol, \.exchange)
             case .name:
-                return { $0.name < $1.name }
+                return compare(\.name, \.symbol, \.exchange)
             case .movers:
-                return { $0.percentChange < $1.percentChange }
+                return compare(\.percentChange, \.symbol, \.exchange)
             }
         }
         
