@@ -48,3 +48,6 @@ class HostingCell<Content : View> : UITableViewCell {
     
 }
 
+extension String {
+    static let hostingCellIdentifier = "HostingCell"
+}

@@ -45,14 +45,29 @@ struct StockView: View {
 }
 
 struct StockView_Previews: PreviewProvider {
+    
     static var previews: some View {
         ForEach(Stock.Display.allCases, id: \.self) { display in
-            StockView(
-                stock: firstStock(),
-                display: .constant(display)
-            )
-            .previewLayout(.fixed(width: 320, height: 63))
-            .previewDisplayName(String(describing: display))
+            ForEach(Bool.allCases, id: \.self) { rising in
+                preview(display, rising)
+            }
         }
     }
+    
+    static func preview(
+        _ display: Stock.Display,
+        _ rising: Bool
+    ) -> some View {
+        StockView(
+            stock: firstStock(rising: rising),
+            display: .constant(display)
+        )
+        .previewLayout(
+            .fixed(width: 320, height: 63)
+        )
+        .previewDisplayName(
+            "display: \(display) rising: \(rising)"
+        )
+    }
+    
 }

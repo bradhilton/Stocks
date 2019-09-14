@@ -51,12 +51,6 @@ struct Values<Base : DiffableCollection> : RandomAccessCollection {
     
 }
 
-protocol Function {
-    associatedtype Args
-    associatedtype Result
-    func callAsFunction(_ args: Args) -> Result
-}
-
 struct Map<Base : DiffableCollection, Transform : Function> : DiffableCollection where Transform.Args == Base.Value {
     
     let base: Base
@@ -92,7 +86,8 @@ protocol Searchable {
     func matches(search: String) -> Bool
 }
 
-struct Search<Base : DiffableCollection> : DiffableCollection where Base.Value : Searchable {
+struct Search<Base : DiffableCollection> : DiffableCollection
+    where Base.Value : Searchable {
     let base: Base
     let search: String
     
@@ -113,7 +108,10 @@ struct Search<Base : DiffableCollection> : DiffableCollection where Base.Value :
     var positions: [Base.Element: Int] {
         cachedResult(for: self) {
             Dictionary(
-                uniqueKeysWithValues: $0.filteredElements.enumerated().lazy.map { ($1, $0) }
+                uniqueKeysWithValues: $0.filteredElements
+                    .enumerated()
+                    .lazy
+                    .map { ($1, $0) }
             )
         }
     }

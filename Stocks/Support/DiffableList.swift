@@ -8,7 +8,8 @@
 
 import SwiftUI
 
-struct DiffableList<Contents : DiffableCollection> : UIViewRepresentable where Contents.Value : View {
+struct DiffableList<Contents : DiffableCollection> : UIViewRepresentable
+    where Contents.Value : View {
     
     let contents: Contents
     
@@ -18,7 +19,7 @@ struct DiffableList<Contents : DiffableCollection> : UIViewRepresentable where C
         tableView.delegate = context.coordinator
         tableView.register(
             HostingCell<Contents.Value>.self,
-            forCellReuseIdentifier: .cellIdentifier
+            forCellReuseIdentifier: .hostingCellIdentifier
         )
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
@@ -87,13 +88,16 @@ struct DiffableList<Contents : DiffableCollection> : UIViewRepresentable where C
 
 }
 
-class DiffableCoordinator<Contents : DiffableCollection> : NSObject, UITableViewDataSource, UITableViewDelegate where Contents.Value : View  {
+class DiffableCoordinator<Contents : DiffableCollection> : TableCoordinator
+    where Contents.Value : View  {
 
     var contents: Contents
 
     init(_ contents: Contents) {
         self.contents = contents
     }
+    
+    // MARK: UITableViewDataSource Conformance
     
     func tableView(
         _ tableView: UITableView,
@@ -107,27 +111,33 @@ class DiffableCoordinator<Contents : DiffableCollection> : NSObject, UITableView
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
-            withIdentifier: .cellIdentifier,
+            withIdentifier: .hostingCellIdentifier,
             for: indexPath
         ) as! HostingCell<Contents.Value>
+        
         cell.content = contents.values[
             contents.index(contents.startIndex, offsetBy: indexPath.row)
         ]
+        
         return cell
     }
     
-    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+    // MARK: UITableViewDelegate Conformance
+    
+    func tableView(
+        _ tableView: UITableView,
+        shouldHighlightRowAt indexPath: IndexPath
+    ) -> Bool {
         false
     }
     
-    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+    func tableView(
+        _ tableView: UITableView,
+        willSelectRowAt indexPath: IndexPath
+    ) -> IndexPath? {
         nil
     }
 
-}
-
-extension String {
-    fileprivate static let cellIdentifier = "cellIdentifier"
 }
 
 struct DiffableList_Previews: PreviewProvider {

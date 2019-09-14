@@ -24,6 +24,11 @@ func loadStocks(count: Int) -> [Stock] {
     }
 }
 
-func firstStock() -> Stock {
-    loadStocks(count: 1)[0]
+func firstStock(rising: Bool) -> Stock {
+    loadStocks(count: .max)
+        .first {
+            rising
+                ? $0.percentChange > 0
+                : $0.percentChange < 0
+        }!
 }

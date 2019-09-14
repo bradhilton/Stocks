@@ -8,10 +8,6 @@
 
 import SwiftUI
 
-extension String {
-    fileprivate static let cellIdentifier = "cellIdentifier"
-}
-
 struct SimpleList<Contents : RandomAccessCollection> : UIViewRepresentable where Contents.Element : View {
     
     let contents: Contents
@@ -22,7 +18,7 @@ struct SimpleList<Contents : RandomAccessCollection> : UIViewRepresentable where
         tableView.delegate = context.coordinator
         tableView.register(
             HostingCell<Contents.Element>.self,
-            forCellReuseIdentifier: .cellIdentifier
+            forCellReuseIdentifier: .hostingCellIdentifier
         )
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
@@ -43,13 +39,18 @@ struct SimpleList<Contents : RandomAccessCollection> : UIViewRepresentable where
 
 }
 
-class SimpleCoordinator<Contents : RandomAccessCollection> : NSObject, UITableViewDataSource, UITableViewDelegate where Contents.Element : View  {
+typealias TableCoordinator = NSObject & UITableViewDataSource & UITableViewDelegate
+
+class SimpleCoordinator<Contents : RandomAccessCollection> : TableCoordinator
+    where Contents.Element : View  {
 
     var contents: Contents
 
     init(_ contents: Contents) {
         self.contents = contents
     }
+    
+    // MARK: UITableViewDataSource Conformance
     
     func tableView(
         _ tableView: UITableView,
@@ -63,7 +64,7 @@ class SimpleCoordinator<Contents : RandomAccessCollection> : NSObject, UITableVi
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
-            withIdentifier: .cellIdentifier,
+            withIdentifier: .hostingCellIdentifier,
             for: indexPath
         ) as! HostingCell<Contents.Element>
         cell.content = contents[
@@ -72,11 +73,19 @@ class SimpleCoordinator<Contents : RandomAccessCollection> : NSObject, UITableVi
         return cell
     }
     
-    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+    // MARK: UITableViewDelegate Conformance
+    
+    func tableView(
+        _ tableView: UITableView,
+        shouldHighlightRowAt indexPath: IndexPath
+    ) -> Bool {
         false
     }
     
-    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+    func tableView(
+        _ tableView: UITableView,
+        willSelectRowAt indexPath: IndexPath
+    ) -> IndexPath? {
         nil
     }
 

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		A228AF50232D0BB00050F24D /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A228AF4F232D0BB00050F24D /* Cache.swift */; };
 		A228AF52232D0C620050F24D /* HostingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A228AF51232D0C620050F24D /* HostingCell.swift */; };
+		A228AF54232D0E000050F24D /* Function.swift in Sources */ = {isa = PBXBuildFile; fileRef = A228AF53232D0E000050F24D /* Function.swift */; };
+		A228AF56232D13640050F24D /* Bool.swift in Sources */ = {isa = PBXBuildFile; fileRef = A228AF55232D13640050F24D /* Bool.swift */; };
 		A263A167232AAF0F005A97D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A263A166232AAF0F005A97D9 /* AppDelegate.swift */; };
 		A263A169232AAF0F005A97D9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A263A168232AAF0F005A97D9 /* SceneDelegate.swift */; };
 		A263A16B232AAF0F005A97D9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A263A16A232AAF0F005A97D9 /* ContentView.swift */; };
@@ -63,6 +65,8 @@
 /* Begin PBXFileReference section */
 		A228AF4F232D0BB00050F24D /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		A228AF51232D0C620050F24D /* HostingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingCell.swift; sourceTree = "<group>"; };
+		A228AF53232D0E000050F24D /* Function.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Function.swift; sourceTree = "<group>"; };
+		A228AF55232D13640050F24D /* Bool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bool.swift; sourceTree = "<group>"; };
 		A263A163232AAF0F005A97D9 /* Stocks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stocks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A263A166232AAF0F005A97D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A263A168232AAF0F005A97D9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -115,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				A2F2E8F8232AFB6100B147FF /* stocks.json */,
+				A228AF55232D13640050F24D /* Bool.swift */,
 				A2F2E906232C39C900B147FF /* BytesAreEqual.swift */,
 				A228AF4F232D0BB00050F24D /* Cache.swift */,
 				A2F2E904232C353D00B147FF /* Comparators.swift */,
@@ -124,6 +129,7 @@
 				A2EDC813232AD7BD005F67EB /* LoadStocks.swift */,
 				A2F2E900232C062300B147FF /* SimpleList.swift */,
 				A2F2E902232C1C0300B147FF /* Table.swift */,
+				A228AF53232D0E000050F24D /* Function.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -321,12 +327,14 @@
 				A263A167232AAF0F005A97D9 /* AppDelegate.swift in Sources */,
 				A2EDC816232AE840005F67EB /* StockView.swift in Sources */,
 				A228AF52232D0C620050F24D /* HostingCell.swift in Sources */,
+				A228AF56232D13640050F24D /* Bool.swift in Sources */,
 				A2F2E90B232C517700B147FF /* DiffableList.swift in Sources */,
 				A2EDC814232AD7BD005F67EB /* LoadStocks.swift in Sources */,
 				A2F2E907232C39C900B147FF /* BytesAreEqual.swift in Sources */,
 				A2F2E901232C062300B147FF /* SimpleList.swift in Sources */,
 				A2F2E905232C353D00B147FF /* Comparators.swift in Sources */,
 				A228AF50232D0BB00050F24D /* Cache.swift in Sources */,
+				A228AF54232D0E000050F24D /* Function.swift in Sources */,
 				A263A169232AAF0F005A97D9 /* SceneDelegate.swift in Sources */,
 				A2F2E909232C3B5E00B147FF /* DiffableCollection.swift in Sources */,
 				A263A16B232AAF0F005A97D9 /* ContentView.swift in Sources */,
