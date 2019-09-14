@@ -123,22 +123,3 @@ struct Table<Entity : Identifiable & Indexable> {
     }
     
 }
-
-extension Array {
-    
-    /// precondition: The array is sorted
-    func sortedIndex(of element: Element, _ areInIncreasingOrder: (Element, Element) -> Bool) -> Int {
-        var start = startIndex
-        var end = endIndex
-        while start < end {
-            let middle = start + (end - start) / 2
-            if areInIncreasingOrder(self[middle], element) {
-                start = middle + 1
-            } else {
-                end = middle
-            }
-        }
-        return start
-    }
-    
-}
