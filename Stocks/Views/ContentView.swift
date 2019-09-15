@@ -23,23 +23,9 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            Group {
-
-                SortPicker(sort: $sort, ascending: $ascending)
-                    .padding([.top, .leading, .trailing])
-
-                TextField("Search", text: $search)
-                    .padding(.all)
-
-                List(
-                    filteredAndSortedStocks,
-                    id: \.symbol
-                ) { stock in
-                    StockView(stock: stock, display: self.$stockDisplay)
-                }
-
-            }
-            .navigationBarTitle("Stocks")
+            StocksView(
+                stocks: data.stocks
+            )
             .navigationBarItems(
                 trailing: Text("\(data.notificationsCount) Notifications").bold()
             )

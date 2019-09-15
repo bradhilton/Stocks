@@ -13,10 +13,13 @@ class AppData : ObservableObject {
     @Published var notificationsCount: Int
     @Published var stocks: [Stock]
     
+    var pendingStocks: [Stock]
+    
     init() {
         notificationsCount = 2
-        stocks = loadStocks(count: 100)
-        
+        let stocks = loadStocks(count: 500)
+        self.stocks = stocks
+        self.pendingStocks = stocks
         startNotificationsCountUpdates()
         startStockUpdates()
     }
@@ -30,7 +33,8 @@ class AppData : ObservableObject {
         ) { _ in
             let randomChange = Int.random(in: -1...1)
             let count = self.notificationsCount + randomChange
-            self.notificationsCount = max(count, 0)
+            let clampedCount = max(count, 0)
+            self.notificationsCount = clampedCount
         }
     }
     
@@ -40,7 +44,7 @@ class AppData : ObservableObject {
     func startStockUpdates() {
         let exchangeSymbolPairs = stocks.map { ($0.exchange, $0.symbol) }
         
-        self.updateStocksTimer = .scheduledTimer(
+        self.updatePendingStocksTimer = .scheduledTimer(
             withTimeInterval: 0.002,
             repeats: true
         ) { [unowned self] _ in
@@ -48,11 +52,18 @@ class AppData : ObservableObject {
                 with: randomStockUpdates(for: exchangeSymbolPairs)
             )
         }
+        
+        self.updateStocksTimer = .scheduledTimer(
+            withTimeInterval: 0.250,
+            repeats: true
+        ) { [unowned self] _ in
+            self.stocks = self.pendingStocks
+        }
     }
     
     func updateStocks(with updates: [Stock.Update]) {
         for update in updates {
-            guard let index = stocks.firstIndex(
+            guard let index = pendingStocks.firstIndex(
                 where: { stock in
                     return stock.exchange == update.exchange
                         && stock.symbol == update.symbol
@@ -60,7 +71,7 @@ class AppData : ObservableObject {
             ) else {
                 continue
             }
-            stocks[index].lastSale *= update.priceChange
+            pendingStocks[index].lastSale *= update.priceChange
         }
     }
     
