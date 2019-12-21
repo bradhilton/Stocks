@@ -17,7 +17,7 @@ class AppData : ObservableObject {
     
     init() {
         notificationsCount = 2
-        let stocks = loadStocks(count: 500)
+        let stocks = loadStocks(count: 100)
         self.stocks = stocks
         self.pendingStocks = stocks
         startNotificationsCountUpdates()

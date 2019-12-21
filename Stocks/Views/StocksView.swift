@@ -44,6 +44,8 @@ struct StocksView: View {
 
 struct StocksView_Previews: PreviewProvider {
     static var previews: some View {
-        StocksView(stocks: loadStocks(count: 100))
+        NavigationView {
+            StocksView(stocks: loadStocks(count: 100))
+        }
     }
 }

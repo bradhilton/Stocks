@@ -14,12 +14,6 @@ struct ContentView: View {
     @State var ascending = true
     @State var search = ""
     @State var stockDisplay = Stock.Display.lastSale
-
-    var filteredAndSortedStocks: [Stock] {
-        data.stocks
-            .filter(stockMatches(search))
-            .sorted(by: sort.comparator(ascending))
-    }
     
     var body: some View {
         NavigationView {
@@ -27,7 +21,7 @@ struct ContentView: View {
                 stocks: data.stocks
             )
             .navigationBarItems(
-                trailing: Text("\(data.notificationsCount) Notifications").bold()
+                trailing: Text("\(data.notificationsCount) Messages").bold()
             )
         }
     }
